@@ -1,13 +1,15 @@
-<head> 
-  <title> <b>About Me</b> </title> 
-</head>
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>About Me</title> 
+  </head>
 
-<body>
-<p> My name is Suman Majumder, a PhD candidate at North Carolina State University. I am working on my PhD under the mentoring of Dr. Brian J. Reich. My research topics focus on spatial or spatiotemporal models and their application to real life problems.</p>
+  <body>
+    <p> My name is Suman Majumder, a PhD candidate at North Carolina State University. I am working on my PhD under the mentoring of Dr. Brian J. Reich. My research topics focus on spatial or spatiotemporal models and their application to real life problems.</p>
 
-<p> I did my bachelors and masters degree from Indian Statistical Institute, Kolkata (ISI) in India. During my time at ISI, I worked on developing robust statistical methods and their asymptotic properties. </p>
+   <p> I did my bachelors and masters degree from Indian Statistical Institute, Kolkata (ISI) in India. During my time at ISI, I worked on developing robust statistical methods and their asymptotic properties. </p>
 
-<p> My research interests include :
+  <p> My research interests include :
   <ul>
   <li> Spatial/Spatiotemporal modeling </li>
   <li> Computational methods for large datasets </li>
@@ -19,3 +21,4 @@
   
   Email: smajumd2@ncsu.edu </p>
   </body>
+</html>
