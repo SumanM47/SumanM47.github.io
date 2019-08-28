@@ -1,5 +1,5 @@
 <head> 
-  <center> <b>About Me</b> </center> 
+  <title> <b>About Me</b> </title> 
 </head>
 
 <body>
