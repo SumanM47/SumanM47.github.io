@@ -1,6 +1,6 @@
-<header> 
+<head> 
   <center> <b>About Me</b> </center> 
-</header>
+</head>
 
 <body>
 <p> My name is Suman Majumder, a PhD candidate at North Carolina State University. I am working on my PhD under the mentoring of Dr. Brian J. Reich. My research topics focus on spatial or spatiotemporal models and their application to real life problems.</p>
@@ -16,4 +16,4 @@
   <p> <b>Contact</b> </p>
   
   <p> Email: smajumd2@ncsu.edu </p>
-  <\body>
+  </body>
