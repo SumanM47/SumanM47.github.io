@@ -13,7 +13,7 @@
   - Environmental applications
   -Robust statistical methods </p>
   
-  <p> <b>Contact</b> </p>
+  <p> <b>Contact</b> 
   
-  <p> Email: smajumd2@ncsu.edu </p>
+  Email: smajumd2@ncsu.edu </p>
   </body>
