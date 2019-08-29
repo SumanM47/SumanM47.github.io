@@ -8,6 +8,8 @@ body {
     padding: 0px;
     list-style: none;
     font-weight: bold;
+    font-size: 1.2em;
+    color: rgb(0,0,0);
 }
 nav ul li, footer ul li {
     display: inline;
@@ -25,8 +27,8 @@ h1 {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 p {
-    font-size: 1.5em;
-    line-height: 0.8em;
+    font-size: 1.2em;
+    line-height: 1em;
     color: rgb(0,0,0);
 }
 footer {
@@ -45,6 +47,6 @@ ul.posts li {
 }
 
 li {
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: rgb(0,0,0)
 }
