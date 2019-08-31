@@ -15,17 +15,13 @@
     margin-left: 20%;
     height: 200px;
     background: rgb(250,250,250);
-}body {
-    margin: auto;
-    width: 80%;
-    color: rgb(0,0,0);
-    background-color: rgb(250,250,250);
 }
 nav ul, footer ul {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
     list-style: none;
     font-weight: bold;
+    font-size: 1em;
 }
 nav ul li, footer ul li {
     display: inline;
@@ -47,8 +43,8 @@ h2 {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 p {
-    font-size: 2.5em;
-    line-height: 2.4em;
+    font-size: 1.2em;
+    line-height: 1em;
     color: #333;
 }
 footer {
@@ -58,11 +54,7 @@ footer {
 
 ul.posts { 
     margin: 20px auto 40px; 
-    font-size: 2.5em;
-}
-
-ul.posts li {
-    list-style: none;
+    font-size: 1.2em;
 }
 
 ul.posts li {
