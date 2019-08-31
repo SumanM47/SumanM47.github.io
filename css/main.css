@@ -1,26 +1,26 @@
 .container {
     width: 80%;
-    height: 90%;
+    height: 500px;
     background: rgb(250,250,250);
     margin: auto;
     padding: 0px;
 }
 .one {
     width: 20%;
-    height: 90%;
+    height: 500px;
     background: #000080;
     float: left;
     color: rgb(250,250,250)
 }
 .two {
     margin-left: 20%;
-    height: 90%;
+    height: 500px;
     background: rgb(250,250,250);
     color: #000080
 }
 .blurb{
     width: 80%;
-    height: 10%;
+    height: 20px;
     background: #000080;
     margin: auto;
     padding: 0px;
