@@ -29,10 +29,21 @@
 body{
     background-color: rgb(250,250,250);
 }
-a:hover {
-    text-decoration: underline;
-}
-h1 {
+a.one {color: rgb(250,250,250);}
+a.one:hover {color: rgb(250,250,250);
+    text-decoration: underline;}
+a.one:visited {color: rgb(250,250,250);
+    text-decoration: none;}
+a.one:active {color: rgb(255,255,255);
+    text-decoration: underline;}
+
+a.two {color: #000080;}
+a.two:hover {color: #000080;
+    text-decoration: underline;}
+a.two:visited {color: #800080;
+    text-decoration: none;}
+a.two:active {color: #000080;
+    text-decoration: underline;}h1 {
     font-size: 3em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
