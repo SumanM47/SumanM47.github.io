@@ -16,6 +16,13 @@
     height: 200px;
     background: rgb(250,250,250);
 }
+.blurb{
+    width: 80%;
+    height: 20px;
+    background: aqua;
+    margin: auto;
+    padding: 10px;
+}
 nav ul, footer ul {
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
@@ -59,5 +66,5 @@ ul.posts {
 
 ul.posts li {
     list-style: none;
-    font-size: 1.2em
+    font-size: 1.2em;
 }
