@@ -1,3 +1,10 @@
+.toppart {
+    width: 80%;
+    height: 50px;
+    background: rgb(250,250,250);
+    margin: auto;
+    padding: 0px;
+}
 .container {
     width: 80%;
     height: 450px;
