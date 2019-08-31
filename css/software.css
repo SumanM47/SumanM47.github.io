@@ -1,0 +1,55 @@
+.container {
+    width: 80%;
+    height: 450px;
+    background: rgb(250,250,250);
+    margin: auto;
+    padding: 0px;
+}
+.one {
+    width: 20%;
+    height: 450px;
+    background: #000080;
+    float: left;
+    color: rgb(250,250,250);
+}
+.two {
+    margin-left: 20%;
+    height: 450px;
+    background: rgb(250,250,250);
+    color: #000080;
+    padding: 10px;
+}
+.blurb{
+    width: 80%;
+    height: 20px;
+    background: rgb(250,250,250);
+    margin: auto;
+    padding: 0px;
+}
+body{
+    background-color: rgb(250,250,250);
+}
+a:hover {
+    text-decoration: underline;
+}
+h1 {
+    font-size: 3em;
+    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+}
+p {
+    font-size: 1.2em;
+    line-height: 1em;
+    color: #000080;
+}
+ul.posts { 
+    margin: 20px auto 40px; 
+    font-size: 2em;
+}
+ul.posts li {
+    list-style: none;
+    font-size: 2em;
+}
+li {
+    font-size: 1.2em;
+    color: #000080
+}
