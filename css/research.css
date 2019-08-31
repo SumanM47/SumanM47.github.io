@@ -1,23 +1,33 @@
-body {
-    margin: 60px auto;
-    width: 70%;
-    color: rgb(0,0,0);
-    background-color: rgb(250,250,250);
-}nav ul, footer ul {
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
+.container {
+    width: 80%;
+    height: 450px;
+    background: rgb(250,250,250);
+    margin: auto;
     padding: 0px;
-    list-style: none;
-    font-weight: bold;
-    font-size: 1.2em;
-    color: rgb(0,0,0);
 }
-nav ul li, footer ul li {
-    display: inline;
-    margin-right: 20px;
+.one {
+    width: 20%;
+    height: 450px;
+    background: #000080;
+    float: left;
+    color: rgb(250,250,250);
 }
-a {
-    text-decoration: none;
-    color: rgb(0,128,128);
+.two {
+    margin-left: 20%;
+    height: 450px;
+    background: rgb(250,250,250);
+    color: #000080;
+    padding: 10px;
+}
+.blurb{
+    width: 80%;
+    height: 20px;
+    background: rgb(250,250,250);
+    margin: auto;
+    padding: 0px;
+}
+body{
+    background-color: rgb(250,250,250);
 }
 a:hover {
     text-decoration: underline;
@@ -34,10 +44,6 @@ p {
     font-size: 1.2em;
     line-height: 1em;
     color: rgb(0,0,0);
-}
-footer {
-    border-top: 1px solid #d5d5d5;
-    font-size: 1em;
 }
 
 ul.posts { 
