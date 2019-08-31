@@ -1,6 +1,23 @@
-body {
-    margin: 60px auto;
-    width: 70%;
+.container {
+    width: 80%;
+    height: 200px;
+    background: rgb(250,250,250);
+    margin: auto;
+    padding: 10px;
+}
+.left {
+    width: 20%;
+    height: 200px;
+    background: aqua;
+    float: left;
+}
+.right {
+    margin-left: 20%;
+    height: 200px;
+    background: rgb(250,250,250);
+}body {
+    margin: auto;
+    width: 80%;
     color: rgb(0,0,0);
     background-color: rgb(250,250,250);
 }
