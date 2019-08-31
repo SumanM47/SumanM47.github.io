@@ -1,20 +1,20 @@
 .container {
     width: 80%;
-    height: 450px;
+    height: 600px;
     background: rgb(250,250,250);
     margin: auto;
     padding: 0px;
 }
 .one {
     width: 20%;
-    height: 450px;
+    height: 600px;
     background: #000080;
     float: left;
     color: rgb(250,250,250);
 }
 .two {
     margin-left: 20%;
-    height: 450px;
+    height: 600px;
     background: rgb(250,250,250);
     color: #000080;
     padding: 10px;
@@ -29,9 +29,22 @@
 body{
     background-color: rgb(250,250,250);
 }
-a:hover {
-    text-decoration: underline;
-}
+a.one {color: rgb(250,250,250);}
+a.one:hover {color: rgb(250,250,250);
+    text-decoration: underline;}
+a.one:visited {color: rgb(250,250,250);
+    text-decoration: none;}
+a.one:active {color: rgb(255,255,255);
+    text-decoration: underline;}
+
+a.two {color: #000080;}
+a.two:hover {color: #000080;
+    text-decoration: underline;}
+a.two:visited {color: #800080;
+    text-decoration: none;}
+a.two:active {color: #000080;
+    text-decoration: underline;}
+
 h1 {
     font-size: 2em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
