@@ -29,24 +29,21 @@
 body{
     background-color: rgb(250,250,250);
 }
-nav ul, footer ul {
-    font-family:'Helvetica', 'Arial', 'Sans-Serif';
-    padding: 0px;
-    list-style: none;
-    font-weight: bold;
-    font-size: 1em;
-}
-nav ul li, footer ul li {
-    display: inline;
-    margin-right: 20px;
-}
-a {
-    text-decoration: none;
-    color: rgb(250, 250, 250);
-}
-a:hover {
-    text-decoration: underline;
-}
+a.one {color: rgb(250,250,250);}
+a.one:hover {color: rgb(250,250,250);
+    text-decoration: underline;}
+a.one:visited {color: rgb(250,250,250);
+    text-decoration: none;}
+a.one:active {color: rgb(255,255,255);
+    text-decoration: underline;}
+
+a.two {color: #000080;}
+a.two:hover {color: #000080;
+    text-decoration: underline;}
+a.two:visited {color: #800080;
+    text-decoration: none;}
+a.two:active {color: #000080;
+    text-decoration: underline;}
 h1 {
     font-size: 3em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
@@ -60,11 +57,6 @@ p {
     line-height: 1em;
     color: #000080;
 }
-footer {
-    border-top: 1px solid #d5d5d5;
-    font-size: 1em;
-}
-
 ul.posts { 
     margin: 20px auto 40px; 
     font-size: 1.2em;
@@ -74,4 +66,8 @@ ul.posts li {
     list-style: none;
     font-size: 1.2em;
     color: #000080
+}
+li {
+    font-size: 1.2em;
+    color: #000080;
 }
