@@ -37,13 +37,14 @@ a.one:visited {color: rgb(250,250,250);
 a.one:active {color: rgb(255,255,255);
     text-decoration: underline;}
 
-a.two {color: #000080;}
-a.two:hover {color: #000080;
+a {color: #000080;}
+a:hover {color: #000080;
     text-decoration: underline;}
-a.two:visited {color: #800080;
+a:visited {color: #800080;
     text-decoration: none;}
-a.two:active {color: #000080;
-    text-decoration: underline;}h1 {
+a:active {color: #000080;
+    text-decoration: underline;}
+h1 {
     font-size: 3em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
