@@ -5,13 +5,13 @@
     margin: auto;
     padding: 10px;
 }
-.left {
+.one {
     width: 20%;
     height: 200px;
     background: aqua;
     float: left;
 }
-.right {
+.two {
     margin-left: 20%;
     height: 200px;
     background: rgb(250,250,250);
