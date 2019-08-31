@@ -8,18 +8,20 @@
 .one {
     width: 20%;
     height: 200px;
-    background: aqua;
+    background: #000080;
     float: left;
+    color: rgb(250,250,250)
 }
 .two {
     margin-left: 20%;
     height: 200px;
     background: rgb(250,250,250);
+    color: #000080
 }
 .blurb{
     width: 80%;
     height: 20px;
-    background: aqua;
+    background: #000080;
     margin: auto;
     padding: 10px;
 }
@@ -36,7 +38,7 @@ nav ul li, footer ul li {
 }
 a {
     text-decoration: none;
-    color: rgb(0,128,128);
+    color: rgb(250, 250, 250);
 }
 a:hover {
     text-decoration: underline;
@@ -52,7 +54,7 @@ h2 {
 p {
     font-size: 1.2em;
     line-height: 1em;
-    color: #333;
+    color: #000080;
 }
 footer {
     border-top: 1px solid #d5d5d5;
@@ -67,4 +69,5 @@ ul.posts {
 ul.posts li {
     list-style: none;
     font-size: 1.2em;
+    color: #000080
 }
