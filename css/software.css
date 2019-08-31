@@ -29,12 +29,12 @@
 body{
     background-color: rgb(250,250,250);
 }
-a.one {color: rgb(250,250,250);}
-a.one:hover {color: rgb(250,250,250);
+a.classone {color: rgb(250,250,250);}
+a.classone:hover {color: rgb(250,250,250);
     text-decoration: underline;}
-a.one:visited {color: rgb(250,250,250);
+a.classone:visited {color: rgb(250,250,250);
     text-decoration: none;}
-a.one:active {color: rgb(255,255,255);
+a.classone:active {color: rgb(255,255,255);
     text-decoration: underline;}
 
 a {color: #000080;}
