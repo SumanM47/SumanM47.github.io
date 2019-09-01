@@ -33,11 +33,9 @@
     margin: auto;
     padding: 0px;
 }
-img.navig {
-    width: auto;
-    height: auto;
+.one img {
     max-height: 30%;
-    max-width: 80%
+    max-width: 45%;
 }
 body{
     background-color: rgb(250,250,250);
