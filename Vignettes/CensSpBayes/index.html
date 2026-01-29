@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>CensSpBayesVignette</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">CensSpBayesVignette</h1>
+
+
+
+<div id="demonstration-for-the-baseline-model-with-gaussian-prior" class="section level1">
+<h1>Demonstration for the Baseline Model with Gaussian prior</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(CensSpBayes)</span></code></pre></div>
+<p>We use the dataset to provide a demonstration on how to use the
+R-package and its functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">##  Loading the synthetic data</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">data</span>(simdat)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="do">## Description of the data</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>?simdat</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; starting httpd help server ... done</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="do">## Variables present in the data</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">names</span>(simdat)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Y&quot;        &quot;cutoff.Y&quot; &quot;x&quot;        &quot;y&quot;</span></span></code></pre></div>
+<p>Since this data is simulated, all observations are available and
+nothing is censored or missing. First, we shall proceed to hold off
+about <span class="math inline">\(20\%\)</span> of the data as
+prediction location and data. Then we shall use the variable to create a
+censored version of the response.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>permind <span class="ot">=</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(simdat),<span class="fu">nrow</span>(simdat))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>obsind <span class="ot">=</span> permind[<span class="dv">1</span><span class="sc">:</span><span class="dv">8000</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>predind <span class="ot">=</span> permind[<span class="dv">8001</span><span class="sc">:</span><span class="dv">10000</span>]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>Y.obstrue <span class="ot">=</span> simdat<span class="sc">$</span>Y[obsind]</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>Y.predtrue <span class="ot">=</span> simdat<span class="sc">$</span>Y[predind]</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>S.obs <span class="ot">=</span> <span class="fu">cbind</span>(simdat<span class="sc">$</span>x[obsind],simdat<span class="sc">$</span>y[obsind])</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>S.pred <span class="ot">=</span> <span class="fu">cbind</span>(simdat<span class="sc">$</span>x[predind],simdat<span class="sc">$</span>y[predind])</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>cutoff.Y.obs <span class="ot">=</span> simdat<span class="sc">$</span>cutoff.Y[obsind]</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>Y.censind <span class="ot">=</span> <span class="fu">which</span>(Y.obstrue <span class="sc">&lt;</span> cutoff.Y.obs)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>Y.obs <span class="ot">=</span> Y.obstrue</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>Y.obs[Y.censind] <span class="ot">=</span> cutoff.Y.obs[Y.censind]</span></code></pre></div>
+<p>We shall now use this data, namely , , and to run function.</p>
+<p>But first, we require the mass and stiffness matrices for the SPDE
+mesh and index matrices for the observation and prediction locations. We
+do this by using the function .</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>inla.mats <span class="ot">=</span> <span class="fu">create_inla_mats</span>(<span class="at">S=</span>S.obs,<span class="at">S_pred=</span>S.pred,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>                             <span class="at">offset=</span><span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.2</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>                             <span class="at">cutoff=</span><span class="fl">0.05</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>                             <span class="at">max.edge=</span><span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>))</span></code></pre></div>
+<p>The inputs , , determines the mesh that will be used to approximate
+the Gaussian process and can have effects on how well the method
+performs in approximating the underlying Gaussian process.</p>
+<p>Once we have these matrices, we are ready to fit our Bayesian MCMC
+model to the censored data. Since we have no covariates, we create our
+design matrix using an intercept term and the locations themselves.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>X.obs <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(S.obs),<span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>X.pred <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(S.pred),<span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">CensSpBayes</span>(<span class="at">Y=</span>Y.obs,<span class="at">S=</span> S.obs,<span class="at">X=</span>X.obs,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                  <span class="at">cutoff_Y=</span>cutoff.Y.obs,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                  <span class="at">S_pred=</span>S.pred,<span class="at">X_pred=</span>X.pred,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>                  <span class="at">inla_mats=</span>inla.mats,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                  <span class="at">rho_init=</span><span class="fl">0.1</span>, <span class="at">rho_upper=</span><span class="fl">0.25</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>                  <span class="at">iters=</span><span class="dv">200</span>,<span class="at">burn=</span><span class="dv">100</span>,<span class="at">thin=</span><span class="dv">2</span>)</span></code></pre></div>
+<p>You can get the samples and the traceplots by accessing the output as
+you would for any other list output.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">str</span>(out)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; List of 10</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;  $ theta         : num [1:200, 1] 6.9 7.02 6.82 7.18 6.7 ...</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;  $ tau           : num [1:200] 0.928 0.892 0.805 0.826 0.813 ...</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;  $ rho           : num [1:200] 0.0586 0.0765 0.0779 0.0779 0.0779 ...</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;  $ r             : num [1:200] 0.5 0.552 0.552 0.552 0.552 ...</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;  $ latent_posmean: num [1:580] -1.626 0.838 0.374 3.439 2.708 ...</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;  $ latent_posvar : num [1:580] 0.165 0.186 0.189 0.181 0.149 ...</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;  $ Y_pred_posmean: num [1:2000] 4.95 7.6 5.98 4.32 6.52 ...</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;  $ Y_pred_posvar : num [1:2000] 0.432 0.617 0.564 0.652 0.493 ...</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;  $ inla_mats_used:List of 5</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;   ..$ c_mat :Formal class &#39;dgTMatrix&#39; [package &quot;Matrix&quot;] with 6 slots</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ i       : int [1:580] 0 1 2 3 4 5 6 7 8 9 ...</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ j       : int [1:580] 0 1 2 3 4 5 6 7 8 9 ...</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dim     : int [1:2] 580 580</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dimnames:List of 2</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ x       : num [1:580] 0.00365 0.00294 0.00299 0.00225 0.00366 ...</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ factors : list()</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;   ..$ g1_mat:Formal class &#39;dgTMatrix&#39; [package &quot;Matrix&quot;] with 6 slots</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ i       : int [1:3890] 0 0 0 0 0 0 0 1 1 1 ...</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ j       : int [1:3890] 0 42 48 300 431 513 566 1 2 57 ...</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dim     : int [1:2] 580 580</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dimnames:List of 2</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ x       : num [1:3890] 3.8463 -1.1105 -0.8389 -0.0415 -0.6074 ...</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ factors : list()</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt;   ..$ g2_mat:Formal class &#39;dgTMatrix&#39; [package &quot;Matrix&quot;] with 6 slots</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ i       : int [1:10468] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ j       : int [1:10468] 0 24 30 42 48 200 248 300 386 398 ...</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dim     : int [1:2] 580 580</span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dimnames:List of 2</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ x       : num [1:10468] 4941 187 280 -2486 -1604 ...</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ factors : list()</span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt;   ..$ A     :Formal class &#39;dgCMatrix&#39; [package &quot;Matrix&quot;] with 6 slots</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ i       : int [1:24000] 200 487 852 878 987 2169 2253 2307 3053 3287 ...</span></span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ p       : int [1:581] 0 32 56 79 97 142 167 191 230 282 ...</span></span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dim     : int [1:2] 8000 580</span></span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dimnames:List of 2</span></span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ x       : num [1:24000] 0.1143 0.1398 0.4392 0.133 0.0546 ...</span></span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ factors : list()</span></span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a><span class="co">#&gt;   ..$ A_pred:Formal class &#39;dgCMatrix&#39; [package &quot;Matrix&quot;] with 6 slots</span></span>
+<span id="cb6-49"><a href="#cb6-49" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ i       : int [1:6000] 14 144 170 377 442 1080 1168 1239 1 444 ...</span></span>
+<span id="cb6-50"><a href="#cb6-50" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ p       : int [1:581] 0 8 14 21 31 45 52 58 64 73 ...</span></span>
+<span id="cb6-51"><a href="#cb6-51" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dim     : int [1:2] 2000 580</span></span>
+<span id="cb6-52"><a href="#cb6-52" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ Dimnames:List of 2</span></span>
+<span id="cb6-53"><a href="#cb6-53" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-54"><a href="#cb6-54" tabindex="-1"></a><span class="co">#&gt;   .. .. .. ..$ : NULL</span></span>
+<span id="cb6-55"><a href="#cb6-55" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ x       : num [1:6000] 0.3015 0.0273 0.4938 0.2196 0.3288 ...</span></span>
+<span id="cb6-56"><a href="#cb6-56" tabindex="-1"></a><span class="co">#&gt;   .. .. ..@ factors : list()</span></span>
+<span id="cb6-57"><a href="#cb6-57" tabindex="-1"></a><span class="co">#&gt;  $ minutes       : Named num 0.205</span></span>
+<span id="cb6-58"><a href="#cb6-58" tabindex="-1"></a><span class="co">#&gt;   ..- attr(*, &quot;names&quot;)= chr &quot;elapsed&quot;</span></span>
+<span id="cb6-59"><a href="#cb6-59" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" tabindex="-1"></a><span class="fu">names</span>(out)</span>
+<span id="cb6-61"><a href="#cb6-61" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;theta&quot;          &quot;tau&quot;            &quot;rho&quot;            &quot;r&quot;             </span></span>
+<span id="cb6-62"><a href="#cb6-62" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;latent_posmean&quot; &quot;latent_posvar&quot;  &quot;Y_pred_posmean&quot; &quot;Y_pred_posvar&quot; </span></span>
+<span id="cb6-63"><a href="#cb6-63" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;inla_mats_used&quot; &quot;minutes&quot;</span></span>
+<span id="cb6-64"><a href="#cb6-64" tabindex="-1"></a></span>
+<span id="cb6-65"><a href="#cb6-65" tabindex="-1"></a><span class="do">## Access elements</span></span>
+<span id="cb6-66"><a href="#cb6-66" tabindex="-1"></a></span>
+<span id="cb6-67"><a href="#cb6-67" tabindex="-1"></a>out<span class="sc">$</span>tau</span>
+<span id="cb6-68"><a href="#cb6-68" tabindex="-1"></a><span class="co">#&gt;   [1] 0.9276461 0.8916737 0.8053255 0.8263772 0.8134443 0.8482193 0.8166854</span></span>
+<span id="cb6-69"><a href="#cb6-69" tabindex="-1"></a><span class="co">#&gt;   [8] 0.8173786 0.8233671 0.8275592 0.8317621 0.8219326 0.8203907 0.8095917</span></span>
+<span id="cb6-70"><a href="#cb6-70" tabindex="-1"></a><span class="co">#&gt;  [15] 0.8190549 0.8164664 0.8234181 0.8433147 0.8030082 0.8229517 0.7997747</span></span>
+<span id="cb6-71"><a href="#cb6-71" tabindex="-1"></a><span class="co">#&gt;  [22] 0.7909956 0.8000614 0.7903223 0.7771144 0.7883055 0.8012286 0.7880898</span></span>
+<span id="cb6-72"><a href="#cb6-72" tabindex="-1"></a><span class="co">#&gt;  [29] 0.7793218 0.7934108 0.7915661 0.7945230 0.7783953 0.8061209 0.8209701</span></span>
+<span id="cb6-73"><a href="#cb6-73" tabindex="-1"></a><span class="co">#&gt;  [36] 0.7938004 0.7890243 0.8066802 0.7957364 0.7659813 0.7200011 0.7192372</span></span>
+<span id="cb6-74"><a href="#cb6-74" tabindex="-1"></a><span class="co">#&gt;  [43] 0.7285464 0.7259220 0.7225312 0.7127862 0.6917402 0.7091161 0.6949937</span></span>
+<span id="cb6-75"><a href="#cb6-75" tabindex="-1"></a><span class="co">#&gt;  [50] 0.6917135 0.7340881 0.7342742 0.6899294 0.7181232 0.7017300 0.6945600</span></span>
+<span id="cb6-76"><a href="#cb6-76" tabindex="-1"></a><span class="co">#&gt;  [57] 0.7054608 0.6894469 0.6983395 0.7089476 0.6697647 0.6648973 0.6738784</span></span>
+<span id="cb6-77"><a href="#cb6-77" tabindex="-1"></a><span class="co">#&gt;  [64] 0.6994489 0.6958398 0.6840429 0.6957269 0.7137850 0.7013389 0.6770783</span></span>
+<span id="cb6-78"><a href="#cb6-78" tabindex="-1"></a><span class="co">#&gt;  [71] 0.6694917 0.6917151 0.6910474 0.6882231 0.6774730 0.7082924 0.6822885</span></span>
+<span id="cb6-79"><a href="#cb6-79" tabindex="-1"></a><span class="co">#&gt;  [78] 0.6670429 0.6759192 0.6636318 0.6804847 0.6638071 0.6748402 0.6787235</span></span>
+<span id="cb6-80"><a href="#cb6-80" tabindex="-1"></a><span class="co">#&gt;  [85] 0.6729558 0.6827538 0.6734911 0.6742640 0.6549191 0.6707047 0.6610179</span></span>
+<span id="cb6-81"><a href="#cb6-81" tabindex="-1"></a><span class="co">#&gt;  [92] 0.6696484 0.6601148 0.6637860 0.6624456 0.6679951 0.6717719 0.6713717</span></span>
+<span id="cb6-82"><a href="#cb6-82" tabindex="-1"></a><span class="co">#&gt;  [99] 0.6653441 0.6455780 0.6338035 0.6097488 0.6266887 0.6287853 0.6051409</span></span>
+<span id="cb6-83"><a href="#cb6-83" tabindex="-1"></a><span class="co">#&gt; [106] 0.5952432 0.6135981 0.6173201 0.6167332 0.6170664 0.5917625 0.6192608</span></span>
+<span id="cb6-84"><a href="#cb6-84" tabindex="-1"></a><span class="co">#&gt; [113] 0.6429566 0.6335343 0.6646374 0.6505090 0.6542129 0.6299766 0.6383049</span></span>
+<span id="cb6-85"><a href="#cb6-85" tabindex="-1"></a><span class="co">#&gt; [120] 0.6477040 0.6250961 0.6481450 0.6550479 0.6398491 0.6317010 0.6556232</span></span>
+<span id="cb6-86"><a href="#cb6-86" tabindex="-1"></a><span class="co">#&gt; [127] 0.6487690 0.6393973 0.6343121 0.6262850 0.6559481 0.6366556 0.6293630</span></span>
+<span id="cb6-87"><a href="#cb6-87" tabindex="-1"></a><span class="co">#&gt; [134] 0.6283434 0.6432844 0.6405400 0.6326695 0.6421538 0.6011672 0.5897870</span></span>
+<span id="cb6-88"><a href="#cb6-88" tabindex="-1"></a><span class="co">#&gt; [141] 0.6059614 0.5764671 0.5769199 0.5795835 0.5983566 0.5825140 0.5863267</span></span>
+<span id="cb6-89"><a href="#cb6-89" tabindex="-1"></a><span class="co">#&gt; [148] 0.5747123 0.5829343 0.5902939 0.6016749 0.5850787 0.5988576 0.5959272</span></span>
+<span id="cb6-90"><a href="#cb6-90" tabindex="-1"></a><span class="co">#&gt; [155] 0.5901007 0.5727505 0.5925559 0.5901101 0.5817275 0.5730799 0.5869411</span></span>
+<span id="cb6-91"><a href="#cb6-91" tabindex="-1"></a><span class="co">#&gt; [162] 0.6062210 0.5702973 0.5540205 0.5506045 0.5407335 0.5596916 0.5603740</span></span>
+<span id="cb6-92"><a href="#cb6-92" tabindex="-1"></a><span class="co">#&gt; [169] 0.5628528 0.5735687 0.5514829 0.5613325 0.5726932 0.5592900 0.5584953</span></span>
+<span id="cb6-93"><a href="#cb6-93" tabindex="-1"></a><span class="co">#&gt; [176] 0.5359565 0.5210875 0.5261911 0.5308218 0.5217040 0.5169133 0.5221296</span></span>
+<span id="cb6-94"><a href="#cb6-94" tabindex="-1"></a><span class="co">#&gt; [183] 0.5149001 0.5255707 0.5033416 0.5263012 0.5350892 0.5229425 0.5203918</span></span>
+<span id="cb6-95"><a href="#cb6-95" tabindex="-1"></a><span class="co">#&gt; [190] 0.5341961 0.5202381 0.5157545 0.5246870 0.5096095 0.5304545 0.5160648</span></span>
+<span id="cb6-96"><a href="#cb6-96" tabindex="-1"></a><span class="co">#&gt; [197] 0.5221738 0.5118813 0.4976070 0.4882409</span></span>
+<span id="cb6-97"><a href="#cb6-97" tabindex="-1"></a></span>
+<span id="cb6-98"><a href="#cb6-98" tabindex="-1"></a><span class="do">## Get traceplots</span></span>
+<span id="cb6-99"><a href="#cb6-99" tabindex="-1"></a><span class="fu">plot</span>(out<span class="sc">$</span>tau,<span class="at">type=</span><span class="st">&quot;l&quot;</span>,<span class="at">xlab=</span><span class="st">&quot;iters&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;tau&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="demonstration-for-variable-selection-using" class="section level1">
+<h1>Demonstration for variable Selection using </h1>
+<p>You can use the function to fit the CensSpBayes model and perform
+variable selection. This function allows for the choice of prior to be
+between Gaussian and Hosrseshoe+ (Bhadra et al., 2017) using the input
+which has two possible values of input or for the two prior choices.
+There is also another input to this function named which allows values ,
+, , and as demonstrated below:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">CensSpBayesVS</span>(<span class="at">Y=</span>Y.obs,<span class="at">S=</span> S.obs,<span class="at">X=</span>X.obs,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                  <span class="at">cutoff_Y=</span>cutoff.Y.obs,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                  <span class="at">S_pred=</span>S.pred,<span class="at">X_pred=</span>X.pred,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                  <span class="at">inla_mats=</span>inla.mats,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                  <span class="at">rho_init=</span><span class="fl">0.1</span>, <span class="at">rho_upper=</span><span class="fl">0.25</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                  <span class="at">prior=</span><span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>                  <span class="at">vss=</span><span class="st">&quot;none&quot;</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>                  <span class="at">iters=</span><span class="dv">200</span>,<span class="at">burn=</span><span class="dv">100</span>,<span class="at">thin=</span><span class="dv">2</span>) <span class="do">## Same as CensSpBayes</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">CensSpBayesVS</span>(<span class="at">Y=</span>Y.obs,<span class="at">S=</span> S.obs,<span class="at">X=</span><span class="fu">cbind</span>(X.obs,S.obs),</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>                  <span class="at">cutoff_Y=</span>cutoff.Y.obs,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>                  <span class="at">S_pred=</span>S.pred,<span class="at">X_pred=</span><span class="fu">cbind</span>(X.pred,S.pred),</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>                  <span class="at">inla_mats=</span>inla.mats,</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>                  <span class="at">rho_init=</span><span class="fl">0.1</span>, <span class="at">rho_upper=</span><span class="fl">0.25</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>                  <span class="at">prior=</span><span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>                  <span class="at">vss=</span><span class="st">&quot;cr&quot;</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>                  <span class="at">addpar=</span><span class="fl">0.95</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>                  <span class="at">iters=</span><span class="dv">200</span>,<span class="at">burn=</span><span class="dv">100</span>,<span class="at">thin=</span><span class="dv">2</span>) <span class="do">## Gaussian prior but only coefficients whose 95% (addpar*100%) CI does not include 0 are included in the results. Can be used with prior=&quot;hsp&quot;</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">CensSpBayesVS</span>(<span class="at">Y=</span>Y.obs,<span class="at">S=</span> S.obs,<span class="at">X=</span><span class="fu">cbind</span>(X.obs,S.obs),</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>                  <span class="at">cutoff_Y=</span>cutoff.Y.obs,</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>                  <span class="at">S_pred=</span>S.pred,<span class="at">X_pred=</span><span class="fu">cbind</span>(X.pred,S.pred),</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>                  <span class="at">inla_mats=</span>inla.mats,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>                  <span class="at">rho_init=</span><span class="fl">0.1</span>, <span class="at">rho_upper=</span><span class="fl">0.25</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>                  <span class="at">prior=</span><span class="st">&quot;hsp&quot;</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>                  <span class="at">vss=</span><span class="st">&quot;2means&quot;</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>                  <span class="at">addpar=</span><span class="dv">20</span>,</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>                  <span class="at">iters=</span><span class="dv">200</span>,<span class="at">burn=</span><span class="dv">100</span>,<span class="at">thin=</span><span class="dv">2</span>) <span class="do">## Horseshoe+ prior and only coefficients deemed significant by a two-means clustering (tuning parameter set at addpar) is included in the results. Can be used with prior=&quot;gaussian&quot;</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">CensSpBayesVS</span>(<span class="at">Y=</span>Y.obs,<span class="at">S=</span> S.obs,<span class="at">X=</span><span class="fu">cbind</span>(X.obs,S.obs),</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>                  <span class="at">cutoff_Y=</span>cutoff.Y.obs,</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>                  <span class="at">S_pred=</span>S.pred,<span class="at">X_pred=</span><span class="fu">c</span>(X.pred,S.pred),</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a>                  <span class="at">inla_mats=</span>inla.mats,</span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>                  <span class="at">rho_init=</span><span class="fl">0.1</span>, <span class="at">rho_upper=</span><span class="fl">0.25</span>,</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>                  <span class="at">prior=</span><span class="st">&quot;hsp&quot;</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>                  <span class="at">vss=</span><span class="st">&quot;hsp&quot;</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>                  <span class="at">addpar=</span><span class="fl">0.5</span>,</span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>                  <span class="at">iters=</span><span class="dv">200</span>,<span class="at">burn=</span><span class="dv">100</span>,<span class="at">thin=</span><span class="dv">2</span>) <span class="do">## Horseshoe+ prior and only coefficients with posterior inclusion probability bigger than addpar is included in the results. Can NOT be used with prior=&quot;gaussian&quot;</span></span></code></pre></div>
+<p>The addpar parameter has different meaning for different choices of .
+It gives the confidence coefficient for . It gives the posterior
+inclusion probability beyond which to include the covariates as
+significant for . It gives the the tuning parameter value for two-means
+clustering required for the algorithm when . See Chapagain and Pati
+(2025) and Li and Pati (2017) for details.</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<ol style="list-style-type: decimal">
+<li>Bhadra, A., Datta, J., Polson, N.G. and Willard, B., 2017. The
+Horseshoe+ Estimator of Ultra-Sparse Signals. , 12(4), pp:
+1105-1131.</li>
+<li>Chapagain, N. and Pati, D., 2025. VsusP: Variable Selection using
+Shrinkage Priors [R package].</li>
+<li>Li, H. and Pati, D., 2017. Variable selection using shrinkage
+priors. , 107, pp. 107-119.</li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
