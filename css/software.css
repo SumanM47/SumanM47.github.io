@@ -23,7 +23,7 @@
     margin-left: 20%;
     height: 80%;
     background: rgb(250,250,250);
-    color: #000080;
+    color: #5b5bc7;
     padding: 10px;
 }
 .blurb{
@@ -48,12 +48,12 @@ a.classone:visited {color: rgb(250,250,250);
 a.classone:active {color: rgb(255,255,255);
     text-decoration: underline;}
 
-a {color: #000080;}
+a {color: #5b5bc7;}
 a:hover {color: #000080;
     text-decoration: underline;}
 a:visited {color: #800080;
     text-decoration: none;}
-a:active {color: #000080;
+a:active {color: #5b5bc7;
     text-decoration: underline;}
 h1 {
     font-size: 3em;
@@ -62,7 +62,7 @@ h1 {
 p {
     font-size: 1.2em;
     line-height: 1em;
-    color: #000080;
+    color: #5b5bc7;
 }
 ul.posts { 
     margin: 20px auto 40px; 
@@ -74,5 +74,5 @@ ul.posts li {
 }
 li {
     font-size: 1.2em;
-    color: #000080
+    color: #5b5bc7
 }
