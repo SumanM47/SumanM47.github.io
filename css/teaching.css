@@ -15,7 +15,7 @@
 .one {
     width: 20%;
     height: 80%;
-    background: #2370db;
+    background: rgb(250,250,250);
     float: left;
     color: rgb(250,250,250);
 }
@@ -23,7 +23,7 @@
     margin-left: 20%;
     height: 80%;
     background: rgb(250,250,250);
-    color: #5b5bc7;
+    color: #6e0307;
     padding: 10px;
 }
 .blurb{
@@ -40,46 +40,45 @@
 body{
     background-color: rgb(250,250,250);
 }
-a.classone {color: rgb(250,250,250);}
-a.classone:hover {color: rgb(250,250,250);
+a.classone {color: #6e0307;}
+a.classone:hover {color: #6e0307;
     text-decoration: underline;}
-a.classone:visited {color: rgb(250,250,250);
+a.classone:visited {color: #6e0307;
     text-decoration: none;}
-a.classone:active {color: rgb(255,255,255);
+a.classone:active {color: #6e0307;
     text-decoration: underline;}
 
-a {color: #5b5bc7;}
-a:hover {color: #000080;
+a {color: #6e0307;}
+a:hover {color: #6e0307;
     text-decoration: underline;}
-a:visited {color: #732c96;
+a:visited {color: #800080;
     text-decoration: none;}
-a:active {color: #5b5bc7;
+a:active {color: #6e0307;
     text-decoration: underline;}
 h1 {
-    font-size: 2em;
+    font-size: 3em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 h2 {
-    font-size: 2em;
+    font-size: 2.5em;
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
 }
 p {
     font-size: 1.2em;
     line-height: 1em;
-    color: #5b5bc7;
+    color: #6e0307;
 }
-
 ul.posts { 
     margin: 20px auto 40px; 
-    font-size: 2em;
+    font-size: 1.2em;
 }
 
 ul.posts li {
     list-style: none;
-    font-size: 2em;
+    font-size: 1.2em;
+    color: #6e0307
 }
-
 li {
     font-size: 1.2em;
-    color: #5b5bc7;
+    color: #6e0307;
 }
